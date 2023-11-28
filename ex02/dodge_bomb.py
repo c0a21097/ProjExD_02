@@ -3,7 +3,7 @@ import sys
 import pygame as pg
 import time
 
-start = time.time()
+start = time.time() #タイマー開始
 
 WIDTH, HEIGHT = 1600, 900
 
@@ -55,7 +55,7 @@ def main():
     bb_rct2 = bb_img2.get_rect()  # 爆弾SurfaceのRectを抽出する
     bb_rct2.centerx = random.randint(0, WIDTH)
     bb_rct2.centery = random.randint(0, HEIGHT)
-    vx2, vy2 = +30, +30  # 爆弾の速度
+    vx2, vy2 = +5, +5  # 爆弾の速度
 
 
     clock = pg.time.Clock()
@@ -112,10 +112,9 @@ def main():
             vy2 *= -1
         screen.blit(bb_img2, bb_rct2)
 
-        end = time.time() 
+        end = time.time() #タイマー終了
         time_diff = end - start  
         print(time_diff) 
-
 
         pg.display.update()
         tmr += 1
