@@ -1,7 +1,9 @@
 import random
 import sys
 import pygame as pg
+import time
 
+start = time.time()
 
 WIDTH, HEIGHT = 1600, 900
 
@@ -33,6 +35,8 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img2 = pg.image.load("ex02/fig/6.png")
+    kk_img2 = pg.transform.rotozoom(kk_img2, 0, 2.0)
 
     kk_rct = kk_img.get_rect()  # 練習３：こうかとんSurfaceのRectを抽出する
     kk_rct.center = 900, 400  # 練習３：こうかとんの初期座標
@@ -82,6 +86,17 @@ def main():
         if check_bound(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)  # 練習３：こうかとんを移動させる
+        
+        if not kk_rct.colliderect(bb_rct):
+            screen.blit(kk_img, kk_rct)
+        else:
+            screen.blit(kk_img2, kk_rct) #赤い円にぶつかると画像が変わってゲームオーバー
+
+        if not kk_rct.colliderect(bb_rct2):
+            screen.blit(kk_img, kk_rct)
+        else:
+            screen.blit(kk_img2, kk_rct) #青い円にぶつかると画像が変わってゲームオーバー
+            
         bb_rct.move_ip(vx, vy)  # 練習２：爆弾を移動させる
         yoko,tate = check_bound(bb_rct)
         if not yoko:
@@ -89,7 +104,6 @@ def main():
         if not tate:
             vy *= -1
         screen.blit(bb_img, bb_rct)
-
         bb_rct2.move_ip(vx2, vy2)  # 練習２：爆弾を移動させる
         yoko,tate = check_bound(bb_rct2)
         if not yoko:
@@ -98,10 +112,14 @@ def main():
             vy2 *= -1
         screen.blit(bb_img2, bb_rct2)
 
+        end = time.time() 
+        time_diff = end - start  
+        print(time_diff) 
+
+
         pg.display.update()
         tmr += 1
         clock.tick(50)
-
 
 if __name__ == "__main__":
     pg.init()
