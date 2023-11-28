@@ -43,6 +43,7 @@ def main():
     bb_img = pg.Surface((20, 20))   # 練習１：透明のSurfaceを作る
     bb_img.set_colorkey((0, 0, 0))  # 練習１：黒い部分を透明にする
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)  # 練習１：赤い半径10の円を描く
+
     bb_rct = bb_img.get_rect()  # 練習１：爆弾SurfaceのRectを抽出する
     bb_rct.centerx = random.randint(0, WIDTH)
     bb_rct.centery = random.randint(0, HEIGHT)
@@ -103,13 +104,13 @@ def main():
             vx *= -1
         if not tate:
             vy *= -1
-        screen.blit(bb_img, bb_rct)
-        bb_rct2.move_ip(vx2, vy2)  # 練習２：爆弾を移動させる
-        yoko,tate = check_bound(bb_rct2)
         if not yoko:
             vx2 *= -1
         if not tate:
             vy2 *= -1
+        screen.blit(bb_img, bb_rct)
+        bb_rct2.move_ip(vx2, vy2)  # 練習２：爆弾を移動させる
+        yoko,tate = check_bound(bb_rct2)
         screen.blit(bb_img2, bb_rct2)
 
         end = time.time() #タイマー終了
