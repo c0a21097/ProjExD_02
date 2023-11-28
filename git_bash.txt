@@ -1,0 +1,2 @@
+ex0x 右クリック git bash here
+shift+insertでペースト
