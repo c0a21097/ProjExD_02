@@ -12,6 +12,7 @@ delta = {  # 練習３：押下キーと移動量の辞書
     pg.K_RIGHT: (+5, 0)
 }
 
+
 def check_bound(rct: pg.Rect)->tuple[bool,bool]:
     """
     オブジェクトが画面内or画面外を判定し、真理値タプルを返す関数
@@ -32,6 +33,7 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+
     kk_rct = kk_img.get_rect()  # 練習３：こうかとんSurfaceのRectを抽出する
     kk_rct.center = 900, 400  # 練習３：こうかとんの初期座標
     bb_img = pg.Surface((20, 20))   # 練習１：透明のSurfaceを作る
@@ -41,6 +43,16 @@ def main():
     bb_rct.centerx = random.randint(0, WIDTH)
     bb_rct.centery = random.randint(0, HEIGHT)
     vx, vy = +5, +5  # 練習２：爆弾の速度
+    
+    #2つめの円
+    bb_img2 = pg.Surface((20, 20))   # 透明のSurfaceを作る
+    bb_img2.set_colorkey((0, 0, 0))  # 黒い部分を透明にする
+    pg.draw.circle(bb_img2, (0, 0, 255), (10, 10), 10)  # 練習１：赤い半径10の円を描く
+    bb_rct2 = bb_img2.get_rect()  # 爆弾SurfaceのRectを抽出する
+    bb_rct2.centerx = random.randint(0, WIDTH)
+    bb_rct2.centery = random.randint(0, HEIGHT)
+    vx2, vy2 = +30, +30  # 爆弾の速度
+
 
     clock = pg.time.Clock()
     tmr = 0
@@ -50,6 +62,10 @@ def main():
                 return
             
             if kk_rct.colliderect(bb_rct):
+                print("Game Over")
+                return
+            
+            if kk_rct.colliderect(bb_rct2):
                 print("Game Over")
                 return
             
@@ -72,8 +88,16 @@ def main():
             vx *= -1
         if not tate:
             vy *= -1
-
         screen.blit(bb_img, bb_rct)
+
+        bb_rct2.move_ip(vx2, vy2)  # 練習２：爆弾を移動させる
+        yoko,tate = check_bound(bb_rct2)
+        if not yoko:
+            vx2 *= -1
+        if not tate:
+            vy2 *= -1
+        screen.blit(bb_img2, bb_rct2)
+
         pg.display.update()
         tmr += 1
         clock.tick(50)
