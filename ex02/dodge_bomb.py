@@ -37,13 +37,12 @@ def main():
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     kk_img2 = pg.image.load("ex02/fig/6.png")
     kk_img2 = pg.transform.rotozoom(kk_img2, 0, 2.0)
-
     kk_rct = kk_img.get_rect()  # 練習３：こうかとんSurfaceのRectを抽出する
     kk_rct.center = 900, 400  # 練習３：こうかとんの初期座標
+   
     bb_img = pg.Surface((20, 20))   # 練習１：透明のSurfaceを作る
     bb_img.set_colorkey((0, 0, 0))  # 練習１：黒い部分を透明にする
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)  # 練習１：赤い半径10の円を描く
-
     bb_rct = bb_img.get_rect()  # 練習１：爆弾SurfaceのRectを抽出する
     bb_rct.centerx = random.randint(0, WIDTH)
     bb_rct.centery = random.randint(0, HEIGHT)
@@ -66,11 +65,11 @@ def main():
             if event.type == pg.QUIT: 
                 return
             
-            if kk_rct.colliderect(bb_rct):
+            if kk_rct.colliderect(bb_rct): #赤い円に当たると終了
                 print("Game Over")
                 return
             
-            if kk_rct.colliderect(bb_rct2):
+            if kk_rct.colliderect(bb_rct2): #青い円に当たると終了
                 print("Game Over")
                 return
             
@@ -81,7 +80,6 @@ def main():
                 sum_mv[0] += tpl[0]
                 sum_mv[1] += tpl[1]
         
-
         screen.blit(bg_img, [0, 0])
         kk_rct.move_ip(sum_mv[0], sum_mv[1])
         if check_bound(kk_rct) != (True,True):
@@ -120,6 +118,7 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
+
 
 if __name__ == "__main__":
     pg.init()
